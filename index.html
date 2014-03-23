@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bloodbath Party Calculator</title>
+</head>
+
+<body>
+    <h2>Bloodbath Party Calculator</h2>
+    <table>
+        <tr>
+            <td valign="top">
+                <div id="addSurvivorForm">
+                    <p>Add the attack values of the survivors here.</p>
+                    <p>
+                        Attack Value:<input id="attack-value-input" maxlength="7" type="input" pattern="[0-9,\.]"/>
+                        <button id="add-attack-value-button" type="button" data-action="addSurvivor">Add</button>
+                    </p>
+                </div>
+                <p>
+                    <hr/>
+                </p>
+                List of your survivor's attack values
+                <div id="survivor-list-container">
+                </div>
+            </td>
+            
+            <td valign="top" style="width: 1px; background-color: black;"></td>
+            
+            <td valign="top">
+                <p>Calculate which survivors to add to your party to get an attack value close to your opponent's defense.</p>
+                <p>
+                    Opponent's Defense Value:<input id="foe-defense-value-input" maxlength="7" type="input" pattern="[0-9,\.]"/>
+                    <button id="calculate-attack-party-button" type="button" data-action="calcAttackParty">Calculate</button>
+                </p>
+                <hr/>
+                <div id="best-party-container">
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <script src="handlebars-v1.3.0.js"></script>
+    <script src="calculator.js"></script>
+
+    <!-- templates go below here -->    
+    <template id="template-survivor-list">
+        {{#if survivors}}
+            <ul class="survivor-list">
+                {{#each survivors}}
+                    <li><span>{{this.attack}}</span>&nbsp;<button data-action="removeSurvivor" data-index={{@index}}>Remove</button></li>
+                {{/each}}
+            </ul>
+        {{else}}
+            You need to crete a list of the survivors that can be used to fill in your Party.
+            To do this, enter the attack value of a survivor in your Party or Enlisted group
+            into the text entry field above and click 'Add'. Do this for each survivor.
+        {{/if}}
+    </template>
+
+    <template id="template-best-parties-list">
+        Against defense of <b>{{defense}}</b><br/>
+        {{#if survivors}}
+            You can create a party with attack of <b>{{partyAttack}}</b> using:
+            <ul class="survivor-list">
+                {{#each survivors}}
+                <li>{{this.attack}}</li>
+                {{/each}}
+            </ul>
+        {{else}}
+            None of your survivors are powerful enough to attack this opponent.
+        {{/if}}
+    </template>
+</body>
+</html>
